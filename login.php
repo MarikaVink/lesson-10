@@ -43,16 +43,16 @@
 			echo "signing up ...";
 			
 			//the fields are not empty
-			if(!empty($_POST["username"]) && !empty($_POST["password"])){
+			if(!empty($_POST["name"]) && !empty($_POST["username"]) && !empty($_POST["password"])){
 
 			//save to db
 			
-			signup($_POST["username"],$_POST["password"]);
+			signup($_POST["name"],$_POST["username"],$_POST["password"]);
 			
 			
 			}else{
 				
-				echo "both fields are required!";
+				echo "all fields are required!";
 			}
 		 }
 	
@@ -64,8 +64,9 @@
 <h1>Log in</h1>
 <form method="POST">
 
-	<input type="text"  placeholder="username" name="username">
-	<input type="password" placeholder="password" name="password">
+	
+	<input type="text"  placeholder="username" name="username"><br><br>
+	<input type="password" placeholder="password" name="password"><br><br>
 	
 	<input type="submit" name="login" value="Log in">
 	
@@ -74,8 +75,9 @@
 <h1>Sign up</h1>
 <form method="POST">
 
-	<input type="text"  placeholder="username" name="username">
-	<input type="password" placeholder="password" name="password">
+	<input type="text"  placeholder="name" name="name"><br><br>
+	<input type="text"  placeholder="username" name="username"><br><br>
+	<input type="password" placeholder="password" name="password"><br><br>
 	
 	<input type="submit" name="signup" value="Sign up">
 	

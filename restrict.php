@@ -17,8 +17,28 @@
 		header("Location:login.php");
 	}
 
+		//someone clicked the button "add"
+	if(isset($_GET["add_new_interest"])){
+		
+		if(!empty($_GET["new_interest"])){
+			
+			saveInterest ($_GET["new_interest"]);
+			
+		}else{
+			echo "you left the interest field empty";
+		}
+	}
 ?>
 
-<h2>Welcome <?php=$_SESSION["username"];?> </h2>
+<h2>Welcome <?php echo $_SESSION["name"];?> </h2>
 
 <a href="?logout=1" > Logout</a>;
+
+
+<h2>Add interest</h2>
+<form>
+
+	<input type="text" name="new_interest">
+	<input type="submit" name="add_new_interest" value="add">
+
+</form>

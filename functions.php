@@ -13,17 +13,17 @@
 		$pass = hash("sha512", $pass);
 		
 		//GLOBALS - access outsde variable in function
-		$mysql = new mysqli("localhost",$GLOBALS["db_username"], $GLOBALS["db_password"],"webpr2016_marvin");
+		$mysql = new mysqli("localhost", $GLOBALS["db_username"], $GLOBALS["db_password"],"webpr2016_marvin");
 		
 		
 		
-		$stmt = $mysql->prepare("SELECT id FROM users WHERE username=? and password=?");
+		$stmt = $mysql->prepare("SELECT id, name FROM users WHERE username=? and password=?");
 		
 		echo $mysql->error;
 		
 		$stmt->bind_param("ss", $user, $pass);
 		
-		$stmt->bind_result($id);
+		$stmt->bind_result($id, $name);
 		
 		$stmt->execute();
 		
@@ -33,6 +33,7 @@
 				
 			//create session variables
 			//redirect user
+			$_SESSION["name"] = $name;
 			$_SESSION["user_id"] = $id;
 			$_SESSION["username"] = $user;
 			
@@ -48,20 +49,20 @@
 		
 	}
 	
-	function signup($user, $pass){
+	function signup($name, $user, $pass){
 		
 		//hash the password
 		$pass = hash("sha512", $pass);
 		
 		//GLOBALS - access outsde variable in function
-		$mysql = new mysqli("localhost",$GLOBALS["db_username"], $GLOBALS["db_password"],"webpr2016_marvin");
+		$mysql = new mysqli("localhost", $GLOBALS["db_username"], $GLOBALS["db_password"],"webpr2016_marvin");
 	
-		$stmt = $mysql->prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+		$stmt = $mysql->prepare("INSERT INTO users (name, username, password) VALUES (?, ?, ?)");
 		
 			echo $mysql->error;
 			
 			
-		$stmt->bind_param("ss", $user, $pass);
+		$stmt->bind_param("sss", $name, $user, $pass);
 		
 		if($stmt->execute()){
 			echo "user saved successfully!";
@@ -75,7 +76,23 @@
 
 
 
-
+	function saveInterest($interest) {
+		
+		$mysql = new mysqli("localhost", $GLOBALS["db_username"], $GLOBALS["db_password"],"webpr2016_marvin");
+		
+		$stmt = $mysql->prepare("INSERT INTO interests (name) VALUE (?)");
+		
+		echo $mysql->error;
+		
+		$stmt->bind_param("s", $interest);
+		
+		if($stmt->execute()){
+			echo "inrterest saved successfully!";
+		}else{echo $stmt->error;
+		
+		}
+		
+	}
 
 
 
