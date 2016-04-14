@@ -28,6 +28,19 @@
 			echo "you left the interest field empty";
 		}
 	}
+	
+		//someone clicked the button "select"
+	if(isset($_GET["select_interest"])){
+		
+		if(!empty($_GET["user_interest"])){
+			
+			saveUserInterest ($_GET["user_interest"]);
+			
+		}else{
+			echo "error";
+		}
+	}
+	
 ?>
 
 <h2>Welcome <?php echo $_SESSION["name"];?> </h2>
@@ -42,3 +55,12 @@
 	<input type="submit" name="add_new_interest" value="add">
 
 </form>
+
+
+<h2>Select user interest</h2>
+<form>
+	<?php createInterestDropdown();?>
+	<input type="submit" name="new_interest" value="select">
+
+</form>
+
