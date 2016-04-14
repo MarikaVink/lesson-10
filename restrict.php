@@ -60,7 +60,23 @@
 <h2>Select user interest</h2>
 <form>
 	<?php createInterestDropdown();?>
-	<input type="submit" name="new_interest" value="select">
+	<input type="submit" name="select_interest" value="select">
 
 </form>
+
+
+<h1>Interests</h1>
+<?php createUserInterestList();?>
+
+
+
+
+
+
+
+
+
+
+
+
 

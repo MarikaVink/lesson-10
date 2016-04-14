@@ -124,10 +124,25 @@
 		
 	$mysql = new mysqli("localhost", $GLOBALS["db_username"], $GLOBALS["db_password"],"webpr2016_marvin");
 	
-	$stmt = $mysql->prepare("INSERT INTO users_interests(user_id, interests_id) VALUES (?, ?");
+	//if user already has the interest
+	$stmt = $mysql->prepare("SELECT id FROM users_interests WHERE user_id=? and interests_id=?");
+	echo $mysql->error;
+	$stmt->bind_param("ii", $_SESSION["user_id"], $interest_id);
+	$stmt->execute();
 	
+	if($stmt->fetch()){
+		//if existed
+			echo "you already have this interest";
+			return; //stop it here
+	}
+	$stmt->close();
+	
+	
+	
+	$stmt = $mysql->prepare("INSERT INTO users_interests(user_id, interests_id) VALUES (?, ?)");
+	echo $mysql->error;
 	//$_SESSION ["user_id"] logged in user's ID
-	$stmt->bind_param("ii", $_SESSION ,$interest_id);
+	$stmt->bind_param("ii", $_SESSION["user_id"],$interest_id);
 	
 	if($stmt->execute()){
 			echo "saved successfully!";
@@ -138,7 +153,36 @@
 	
 	}	
 				
+	function createUserInterestList(){
+		
+		$mysql = new mysqli("localhost", $GLOBALS["db_username"], $GLOBALS["db_password"],"webpr2016_marvin");
+	
+		$stmt = $mysql->prepare("
+				SELECT interests.name FROM users_interests
+				INNER JOIN interests ON
+				users_interests.interests_id = interests.id
+				WHERE users_interests.user_id = ?
+				");
 				
+				$stmt->bind_param("i", $_SESSION["user_id"]);
+				$stmt->bind_result($interest);
+				
+				$stmt->execute();
+				
+				$html = "<ul>";
+				
+				//for each interest
+		while($stmt->fetch()){
+			$html .="<li>".$interest."</li>";	
+		}
+		
+		$html .= "</ul>";
+		
+		echo $html;
+				
+				
+	}
+	
 				
 				
 				
